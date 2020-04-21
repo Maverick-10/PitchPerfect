@@ -19,6 +19,16 @@ class RecordSoundsViewController: UIViewController {
     // MARK: Properties
     var audioRecorder: AVAudioRecorder!
     
+    struct RecordingPlaceholder {
+        static let InProgress = "Recording in Progress"
+        static let Record = "Tap to record"
+    }
+    
+    struct AlertText {
+        static let ErrorTitle = "Recording Error"
+        static let ErrorMessage = "Something went wrong, please try again."
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -69,9 +79,9 @@ class RecordSoundsViewController: UIViewController {
         recordButton.isEnabled = !isRecording
         
         if isRecording {
-            recordingLabel.text = "Recording in Progress"
+            recordingLabel.text = RecordingPlaceholder.InProgress
         } else {
-            recordingLabel.text = "Tap to record"
+            recordingLabel.text = RecordingPlaceholder.Record
         }
     }
 }
@@ -82,7 +92,7 @@ extension RecordSoundsViewController : AVAudioRecorderDelegate {
         if flag {
             performSegue(withIdentifier: "stopRecording", sender: audioRecorder.url)
         } else {
-            let alertController = UIAlertController(title: "Recording Error", message: "Something went wrong, please try again.", preferredStyle: .alert)
+            let alertController = UIAlertController(title: AlertText.ErrorTitle, message: AlertText.ErrorMessage, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "Okay", style: .default, handler: nil)
             alertController.addAction(okAction)
             present(alertController, animated: true, completion: nil)
